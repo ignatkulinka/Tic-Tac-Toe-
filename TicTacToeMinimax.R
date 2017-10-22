@@ -1,8 +1,7 @@
 #Ignat Kulinka
-#Tic Tac Toe Assignment 
+#Tic Tac Toe Assignment
 
-convertNAtoLocations <- function(state)
-{
+convertNAtoLocations <- function(state) {
   #convert NA -> board locations
   for (i in 1:length(state))
   {
@@ -12,8 +11,7 @@ convertNAtoLocations <- function(state)
   return(state)
 }
 
-display <- function(state)
-{
+display <- function(state) {
   #convert NA to slot numbers
   state <- convertNAtoLocations(state)
   
@@ -30,8 +28,7 @@ display <- function(state)
   
 }
 
-getOmove <- function(state) 
-{
+getOmove <- function(state) {
   #convert NA -> board locations
   for (i in 1:length(state))
   {
@@ -63,8 +60,7 @@ getOmove <- function(state)
   return(moves$o)
 }
 
-getXmove <- function(state)
-{
+getXmove <- function(state) {
   #convert NA -> board locations
   for (i in 1:length(state))
   {
@@ -95,23 +91,20 @@ getXmove <- function(state)
   return(moves$x)
 }
 
-update <- function(state, who, pos)
-{
-  
+update <- function(state, who, pos) {
   state <- convertNAtoLocations(state)
   
-  if(state[pos] == "x" || state[pos] == "o")
+  if (state[pos] == "x" || state[pos] == "o")
   {
     print("Invalid Move!")
-  }else{
+  } else{
     state[pos] <- who
     return(state)
   }
   
 }
 
-check_winner <- function(state)
-{
+check_winner <- function(state) {
   #convert NA to slot numbers
   for (i in 1:length(state))
   {
@@ -146,8 +139,7 @@ check_winner <- function(state)
   
   
   
-  for (i in 1:length(winningPositions))
-  {
+  for (i in 1:length(winningPositions)) {
     #"x" wins
     if (all(winningPositions[[i]] %in% positions$x))
     {
@@ -161,8 +153,7 @@ check_winner <- function(state)
     }
     
     #"o" wins
-    if (all(winningPositions[[i]] %in% positions$o))
-    {
+    if (all(winningPositions[[i]] %in% positions$o)) {
       print("!!! o wins !!!")
       return(list(
         winner = TRUE,
@@ -174,8 +165,7 @@ check_winner <- function(state)
   }
   
   #tie as in no more available spots to play
-  if ((length(positions$o) + length(positions$x)) == 9)
-  {
+  if ((length(positions$o) + length(positions$x)) == 9) {
     print("!!! its a tie !!!")
     return(list(
       winner = FALSE,
@@ -196,26 +186,22 @@ check_winner <- function(state)
 
 #how many people playing?
 #is ai first?
-numPlayers <- function()
-{
+numPlayers <- function() {
   repeat {
     x <- readline(prompt = "How many players? (Input 1 or 2): ")
     
     #AI game
-    if (x == "1")
-    {
+    if (x == "1") {
       repeat {
         z <-
           readline(prompt = "Do you want the computer to go first? (y/n): ")
         
-        if (z == "y")
-        {
+        if (z == "y") {
           return(list(twoPlayerGame = FALSE,
                       aiFirst = TRUE))
         }
         
-        if(z == "n")
-        {
+        if (z == "n") {
           return(list(twoPlayerGame = FALSE,
                       aiFirst = FALSE))
         }
@@ -231,50 +217,46 @@ numPlayers <- function()
 }
 
 #check if the board is empty
-isBoardEmpty <- function(state)
-{
-  if(any(state == "x") || any(state == "o")){
-    return(FALSE)}
+isBoardEmpty <- function(state) {
+  if (any(state == "x") || any(state == "o")) {
+    return(FALSE)
+  }
   else{
-    return(TRUE)}
+    return(TRUE)
+  }
 }
 
 #check if the number of x's is the same as o's
-doesXmatchO <- function(state)
-{
+doesXmatchO <- function(state) {
   state <- convertNAtoLocations(state)
   moves <- stateToMoves(state)
   
-  if(length(moves$x) == length(moves$o))
+  if (length(moves$x) == length(moves$o))
   {
     return(TRUE)
-  }else{
+  } else{
     return(FALSE)
   }
 }
 
-computer_turn <- function(state)
-{
-  
+computer_turn <- function(state) {
   state <- convertNAtoLocations(state)
   moves <- stateToMoves(state)
   
-  if(isBoardEmpty(state) || doesXmatchO(state))
-  {
+  if (isBoardEmpty(state) || doesXmatchO(state))  {
     #cat("\n X move")
     player <<- "x"
     opponent <<- "o"
     findBestMove(state)
-  }else
-  {
+  } else {
     #cat("\n O move")
     player <<- "o"
     opponent <<- "x"
-    findBestMove(state)}
+    findBestMove(state)
+  }
 }
 
-areMovesLeft <- function(state)
-{
+areMovesLeft <- function(state) {
   #convert NA -> numbered locations
   state <- convertNAtoLocations(state)
   
@@ -290,53 +272,42 @@ areMovesLeft <- function(state)
   return(FALSE)
 }
 
-stateToMoves <- function(state)
-{
+stateToMoves <- function(state) {
   moves <- list(x = c(), o = c())
   
-  for (i in 1:length(state))
-  {
-    if (state[i] == "x")
-    {
+  for (i in 1:length(state)) {
+    if (state[i] == "x") {
       moves$x <- append(moves$x, i)
     }
     
-    if (state[i] == "o")
-    {
+    if (state[i] == "o") {
       moves$o <- append(moves$o, i)
     }
   }
   return(moves)
 }
 
-switchXtoO <- function(state)
-{
+switchXtoO <- function(state) {
   state <- convertNAtoLocations(state)
-  for(i in 1:length(state))
-  {
-    if(state[i] == "x")
-    {
+  for (i in 1:length(state))  {
+    if (state[i] == "x")  {
       state[i] <- "o"
-    }else if(state[i] == "o")
-    {
+    } else if (state[i] == "o") {
       state[i] <- "x"
     }
   }
   return(state)
 }
 
-evaluateState <- function(state)
-{
+evaluateState <- function(state) {
   state <- convertNAtoLocations(state)
   moves <- stateToMoves(state)
   
-  if(player == "x")
-  {
+  if (player == "x") {
     playerLabel <- moves$x
     opponentLabel <- moves$o
   }
-  else
-  {
+  else{
     playerLabel <- moves$o
     opponentLabel <- moves$x
   }
@@ -350,14 +321,11 @@ evaluateState <- function(state)
                            c(1, 5, 9),
                            c(3, 5, 7))
   
-  for(i in 1:length(winningPositions))
-  {
-    if(all(winningPositions[[i]] %in% playerLabel))
-    {
+  for (i in 1:length(winningPositions)) {
+    if (all(winningPositions[[i]] %in% playerLabel)) {
       return(10)
     }
-    else if(all(winningPositions[[i]] %in% opponentLabel))
-    {
+    else if (all(winningPositions[[i]] %in% opponentLabel)) {
       return(-10)
     }
   }
@@ -365,30 +333,23 @@ evaluateState <- function(state)
 }
 
 
-minimax <- function(state, depth, whosMove)
-{
-  
+minimax <- function(state, depth, whosMove) {
   state <- convertNAtoLocations(state)
   score <- evaluateState(state)
-  if((score == 10) || score == -10)
-  {
+  if ((score == 10) || score == -10) {
     return(score - depth)
   }
-  if(areMovesLeft(state) == FALSE)
-  {
+  if (areMovesLeft(state) == FALSE) {
     #print("i only got here")
     return(0 - depth)
   }
   
-  if(whosMove == player)
-  {
+  if (whosMove == player) {
     #print("i also got here")
     bestScore <- -1000
     
-    for(i in 1:length(state))
-    {
-      if(any(state[i] == 1:9))
-      {
+    for (i in 1:length(state)) {
+      if (any(state[i] == 1:9)) {
         state[i] <- player
         
         depth <- depth + 1
@@ -401,19 +362,16 @@ minimax <- function(state, depth, whosMove)
     return(bestScore)
     
   }
-  else
-  {
+  else{
     #print("and here")
     bestScore <- 1000
     
-    for(i in 1:length(state))
-    {
-      if(any(state[i] == 1:9))
-      {
+    for (i in 1:length(state)) {
+      if (any(state[i] == 1:9)) {
         state[i] <- opponent
         
         depth <- depth + 1
-        bestScore <- min(bestScore,minimax(state, depth, player))
+        bestScore <- min(bestScore, minimax(state, depth, player))
         
         state[i] <- i
       }
@@ -423,24 +381,20 @@ minimax <- function(state, depth, whosMove)
 }
 
 
-findBestMove <- function(state)
-{
+findBestMove <- function(state) {
   state <- convertNAtoLocations(state)
   bestValue = -1000
   bestMove <- c()
   
-  for(i in 1:length(state))
-  {
-    if(any(state[i] == 1:9))
-    {
+  for (i in 1:length(state)) {
+    if (any(state[i] == 1:9)) {
       state[i] <- player
       
       moveValue <- minimax(state, 1, opponent)
       #print(moveValue)
       state[i] <- i
       
-      if(moveValue > bestValue)
-      {
+      if (moveValue > bestValue) {
         bestValue <- moveValue
         bestMove <- i
       }
@@ -451,8 +405,7 @@ findBestMove <- function(state)
   return(bestMove)
 }
 
-play <- function()
-{
+play <- function() {
   # determine game conditons: 1 or 2 players. If computer plays, is it player 1 or 2.
   
   state <- rep(NA, 9)
@@ -472,21 +425,19 @@ play <- function()
   gameType <- numPlayers()
   #print(gameType)
   while (!gameState$winner & !gameState$tie) {
-    
     #show the initially empty board
     display(state)
     
     #check gameType for how the game will run
-    if(gameType$twoPlayerGame == TRUE)
-    {
+    if (gameType$twoPlayerGame == TRUE) {
       #two player game
       moves$x <- getXmove(state)
-    }else if(gameType$twoPlayerGame == FALSE && gameType$aiFirst == TRUE)
-    {
+    } else if (gameType$twoPlayerGame == FALSE &&
+               gameType$aiFirst == TRUE) {
       #ai game & ai goes first (x)
       moves$x <- computer_turn(state)
-    }else if(gameType$twoPlayerGame == FALSE && gameType$aiFirst == FALSE)
-    {
+    } else if (gameType$twoPlayerGame == FALSE &&
+               gameType$aiFirst == FALSE) {
       #ai game BUT ai goes second (o)
       moves$x <- getXmove(state)
     }
@@ -507,23 +458,23 @@ play <- function()
     
     # o's turn
     # first display the board
-    display(state) 
+    display(state)
     
     #check the gameType to see who gets to make the next "o" move
-    if(gameType$twoPlayerGame == TRUE){
+    if (gameType$twoPlayerGame == TRUE) {
       #regular two human player game, get the move from console
       moves$o <- getOmove(state)
-    }else if(gameType$twoPlayerGame == FALSE && gameType$aiFirst == TRUE)
-    {
+    } else if (gameType$twoPlayerGame == FALSE &&
+               gameType$aiFirst == TRUE) {
       #ai game and the ai already went (ai is "x")
       moves$o <- getOmove(state)
-    }else if(gameType$twoPlayerGame == FALSE && gameType$aiFirst == FALSE)
-    {
+    } else if (gameType$twoPlayerGame == FALSE &&
+               gameType$aiFirst == FALSE) {
       #ai game but the ai has not went yet, (ai is "o")
       moves$o <- computer_turn(state)
     }
     
-    #update board 
+    #update board
     state <- update(state, "o", moves$o[length(moves$o)])
     
     #display the board as well
