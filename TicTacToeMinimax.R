@@ -164,7 +164,7 @@ check_winner <- function(state) {
     }
   }
   
-  #tie as in no more available spots to play
+  #tie since there are no more available spots to play
   if ((length(positions$o) + length(positions$x)) == 9) {
     print("!!! its a tie !!!")
     return(list(
